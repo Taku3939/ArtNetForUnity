@@ -1,5 +1,5 @@
 # ArtNetReceiver
-ArtNetでデータを簡易に受信と録画するためのプロジェクト
+Unity内でArtNetでデータを簡易に受信と録画するためのプロジェクト
 
 ## Usage
 
