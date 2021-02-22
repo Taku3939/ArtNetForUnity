@@ -39,17 +39,19 @@ namespace ArtNet
         /// 18 ～ 530 : Data
         /// </summary>
         /// <param name="buffer">受信したbyte列</param>
-        public ArtNetData(byte[] buffer)
+        public ArtNetData(byte[] buf)
         {
             Channels = new int[512];
             string id = "";
-            if (buffer.Length < 530)
-            {
-                Debug.Log("配列の要素数が530未満なので終了します");
-                return;
-            }
-
+            // if (buffer.Length < 530)
+            // {
+            //     Debug.Log($"配列の要素数が530未満なので終了します.\nLength = {buffer.Length}");
+            //     return;
+            // }
+            byte[] buffer = new byte[530]; 
+            Buffer.BlockCopy(buf, 0, buffer, 0, buf.Length);
             for (int i = 0; i < 8; i++) id += (char) buffer[i];
+            
             if (id.Equals(Protocol))
             {
                 //ProtocolがArt-Netでなかった場合、終了

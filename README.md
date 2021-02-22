@@ -1,6 +1,9 @@
 # ArtNetReceiver
 Unity内でArtNetでデータを簡易に受信と録画するためのプロジェクト
 
+## Operation Check
+qlc+, TouchDesignerでの動作確認は行いました
+
 ## Usage
 
 ArtNetClientを任意なオブジェクトにアタッチし、Portを設定する（デフォルトで6454）.
