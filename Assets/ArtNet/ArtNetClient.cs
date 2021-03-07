@@ -16,11 +16,10 @@ namespace ArtNet
     public class ArtNetClient : MonoBehaviour, IDisposable
     {
         #region public field
-        
+        public string host;
         public int port = 6454;
         public event Action<ArtNetData> onDataReceived;
         public bool IsActive => this.client != null;
-        
         #endregion
         
         #region private field
@@ -36,7 +35,8 @@ namespace ArtNet
         {
             if(client != null) return;
             context = SynchronizationContext.Current;
-            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, port);
+            
+            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(host),port);
             client = new UdpClient(ipEndPoint);
             cts = new CancellationTokenSource();
             Task.Run(() => Loop(cts.Token), cts.Token);
@@ -72,6 +72,7 @@ namespace ArtNet
                     while (client.Available != 0)
                     {
                         var buf = await client.ReceiveAsync();
+                        Debug.Log("received");
                         context.Post(_ => onDataReceived?.Invoke(new ArtNetData(buf.Buffer)), null);
                     }
                 }

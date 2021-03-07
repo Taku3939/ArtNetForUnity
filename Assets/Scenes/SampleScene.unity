@@ -150,7 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3d57f1da68a2d47ac79fb8394ed362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 6454
+  port: 6564
+  host: 127.0.0.1
 --- !u!4 &166111253
 Transform:
   m_ObjectHideFlags: 0
@@ -301,7 +302,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0, g: 53, b: 0, a: 1}
+  m_Color: {r: 0, g: 252, b: 218, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -592,7 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a2d9de2eaff7344b52bcb96abfa346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArtNetOrVirtualLight: 0
+  ArtNetOrVirtualLight: 1
   light: {fileID: 800031311}
   client: {fileID: 166111252}
   virtualLight: {fileID: 1725886890}
