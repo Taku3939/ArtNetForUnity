@@ -19,6 +19,6 @@ public class SampleLight : MonoBehaviour, IRecordable
         var r = ch1 / 255f;
         var g = ch2 / 255f;
         var b = ch3 / 255f;
-        light.color = new UnityEngine.Color(r, g, b);
+        light.color = new UnityEngine.Color(r, g, b, 255);
     }
 }
