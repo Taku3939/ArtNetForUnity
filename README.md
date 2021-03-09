@@ -2,7 +2,7 @@
 Unity内でArtNetでデータを簡易に受信と録画するためのプロジェクト
 
 ## Operation Check
-qlc+, TouchDesignerでの動作確認は行いました
+qlc+, TouchDesigner, DasLight4での動作確認は行いました
 
 ## Usage
 
@@ -29,7 +29,10 @@ public class Sample : MonoBehaviour
 
 ## Recorder
 
-ArtNetDataRecorderをアタッチし、Clientと保存するPATH(Asset直下ならAssets/SampleAnimationClip.asset). Unityを再生し、録画開始は`R`、録画終了は`S`でできます
+IRecordableを実装したクラスを作成する。
+ArtNetDataRecorderにアタッチし, Unityを再生する。録画開始は`R`、録画終了は`S`でできます。
+
+
 
 License
 -------

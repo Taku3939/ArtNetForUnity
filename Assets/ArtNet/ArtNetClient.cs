@@ -72,7 +72,6 @@ namespace ArtNet
                     while (client.Available != 0)
                     {
                         var buf = await client.ReceiveAsync();
-                        Debug.Log("received");
                         context.Post(_ => onDataReceived?.Invoke(new ArtNetData(buf.Buffer)), null);
                     }
                 }
