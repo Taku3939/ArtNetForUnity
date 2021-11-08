@@ -21,16 +21,20 @@ public class Sample : MonoBehaviour
 
     private void EventHandler(ArtNetData data)
     {
-        //ここにデータ受信時のプログラムを書く
-        data.Logger(); //Log出力用関数 
+         if (data.OpCode != 20480)
+         {
+        	// ここにデータ受信時のプログラムを書く
+	        data.Logger(); //Log出力用関数 
+         }
     }
 }
 ```
 
 ## Recorder
 
-IRecordableを実装したクラスを作成する。
-ArtNetDataRecorderにアタッチし, Unityを再生する。録画開始は`R`、録画終了は`S`でできます。
+ArtNetDataRecorderにパスを設定して, Unityを再生する。
+
+録画開始は`R`、録画終了は`S`でできます。
 
 
 

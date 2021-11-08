@@ -19,24 +19,25 @@ namespace ArtNet
 
         [SerializeField] private ArtNetClient artNetClient;
 
-        [SerializeField] private string DirectoryPath = "Record";
-        [SerializeField] private List<MonoBehaviour> _recordables = new List<MonoBehaviour>();
+        [SerializeField] private string directoryPath = "Record";
+
+        [SerializeField] private string clipName = "NewArtNetClip";
         #endregion
 
         #region private field
 
-        private AnimationCurve[] curves;
-        private float time;
-        private const int max = 512;
-        private bool isRecoding;
-        
+        private AnimationCurve[] _curves;
+        private float _time;
+        private const int ChannelCount = 512;
+        private bool _isRecoding;
+
         #endregion
 
         #region private Method
 
         private void Update()
         {
-            if (isRecoding) time += Time.deltaTime;
+            if (_isRecoding) _time += Time.deltaTime;
 
             if (Input.GetKeyDown(KeyCode.R)) RecordStart();
             if (Input.GetKeyDown(KeyCode.S)) RecordStop();
@@ -44,39 +45,40 @@ namespace ArtNet
 
         private void RecordStart()
         {
-            
-            curves = new AnimationCurve[max];
-            for (int i = 0; i < max; i++)
-                curves[i] = new AnimationCurve();
+            _curves = new AnimationCurve[ChannelCount];
+            for (int i = 0; i < ChannelCount; i++)
+                _curves[i] = new AnimationCurve();
 
-            time = 0f;
-            isRecoding = true;
+            _time = 0f;
+            _isRecoding = true;
             artNetClient.onDataReceived += RecordingEventHandler;
+
+            Debug.Log("RecordStart");
         }
 
 
         private void RecordingEventHandler(ArtNetData data)
         {
-            for (int i = 0; i < max && i < data.Channels.Length; i++)
+            for (int i = 0; i < ChannelCount && i < data.Channels.Length; i++)
             {
-                if (curves[i].keys.Length > 2)
+                if (_curves[i].keys.Length > 2)
                 {
-                    var secondLast = curves[i].keys.Length - 2;
-                    var last = curves[i].keys.Length - 1;
-                    var secondLastKey = curves[i].keys[secondLast];
-                    var lastKey = curves[i].keys[last];
+                    var secondLast = _curves[i].keys.Length - 2;
+                    var last = _curves[i].keys.Length - 1;
+                    var secondLastKey = _curves[i].keys[secondLast];
+                    var lastKey = _curves[i].keys[last];
 
                     if (secondLastKey.value == lastKey.value && lastKey.value == data.Channels[i])
                     {
-                        curves[i].RemoveKey(secondLast);
+                        _curves[i].RemoveKey(secondLast);
                     }
                 }
 
-                var key = new Keyframe(time, data.Channels[i]);
-                curves[i].AddKey(key);
+                var key = new Keyframe(_time, data.Channels[i]);
+                _curves[i].AddKey(key);
             }
-            
-            Debug.Log($"RecordingTime:{this.time}");
+
+            Debug.Log($"RecordingTime:{this._time}");
         }
 
         public void OnApplicationQuit()
@@ -86,43 +88,23 @@ namespace ArtNet
 
         private void RecordStop()
         {
-        
-            if (!isRecoding) return;
+            if (!_isRecoding) return;
 
-            int index = 0;
-            List<AnimationClip> clips = new List<AnimationClip>();
-
-            var iRecordables = _recordables.Select(x => x as IRecordable);
-            foreach (var r in iRecordables)
-            {
-                AnimationClip clip = new AnimationClip();
-                var property = r.GetProperty();
-                
-                for (int i = 0; i < property.Length; i++)
-                    clip.SetCurve("", r.GetType(), property[i], curves[index + i]);
-                
-                index += property.Length;
-                clips.Add(clip);
-            }
+            AnimationClip clip = new AnimationClip();
+            for (int i = 0; i < _curves.Length; i++) clip.SetCurve("", typeof(ArtNetChannels), $"Ch{i + 1}", _curves[i]);
             artNetClient.onDataReceived -= RecordingEventHandler;
-
-            curves = null;
-            isRecoding = false;
+            _curves = null;
+            _isRecoding = false;
             
-            foreach (var pair in iRecordables.Select((recordable, i) => new {i,recordable}))
-            {
-                var path = $"{Application.dataPath}/{DirectoryPath}/{pair.recordable.GetType()}";
-                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-                var p =$"Assets/{DirectoryPath}/{pair.recordable.GetType()}/{((MonoBehaviour)pair.recordable).gameObject.name}.asset";
-                while (File.Exists(p)) p = p.Split('.').First() + "_1.asset";
-                AssetDatabase.CreateAsset(clips[pair.i], p);
-                AssetDatabase.Refresh();
-                Debug.Log("Record Finish");
-            }
+            var path = $"{Application.dataPath}/{directoryPath}";
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+            var p = $"Assets/{directoryPath}/{clipName}.asset";
+            while (File.Exists(p)) p = p.Split('.').First() + "_1.asset";
+            AssetDatabase.CreateAsset(clip, p);
+            AssetDatabase.Refresh();
+            Debug.Log("Record Finish");
         }
 
         #endregion
     }
-
-
 }

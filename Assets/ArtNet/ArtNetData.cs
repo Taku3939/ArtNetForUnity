@@ -38,15 +38,16 @@ namespace ArtNet
         /// 17 : Length Lo (2 to 512, even)	
         /// 18 ～ 530 : Data
         /// </summary>
-        /// <param name="buffer">受信したbyte列</param>
+        /// <param name="buf">受信したbyte列</param>
         public ArtNetData(byte[] buf)
         {
             Channels = new int[512];
-            string id = "";
+           
             byte[] buffer = new byte[530]; 
             Buffer.BlockCopy(buf, 0, buffer, 0, buf.Length);
-            for (int i = 0; i < 8; i++) id += (char) buffer[i];
-            
+            char[] ids = new char[8];
+            for (int i = 0; i < 8; i++) ids[i] = (char) buffer[i];
+            var id = new string(ids); 
             if (id.Equals(Protocol))
             {
                 //ProtocolがArt-Netでなかった場合、終了
