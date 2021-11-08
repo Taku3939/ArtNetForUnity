@@ -59,6 +59,11 @@ namespace ArtNet
 
         private void RecordingEventHandler(ArtNetData data)
         {
+            if (data.OpCode != 20480)
+            {
+                return;
+            }
+
             for (int i = 0; i < ChannelCount && i < data.Channels.Length; i++)
             {
                 if (_curves[i].keys.Length > 2)

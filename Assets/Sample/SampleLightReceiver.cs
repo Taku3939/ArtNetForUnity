@@ -10,7 +10,7 @@ public class SampleLightReceiver : MonoBehaviour
     {
         this.client.onDataReceived += data =>
         {
-            if (data.OpCode != 20480)
+            if (data.OpCode == 20480)
             {
                 light.color = new Color(
                     data.Channels[0],

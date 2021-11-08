@@ -21,7 +21,7 @@ public class Sample : MonoBehaviour
 
     private void EventHandler(ArtNetData data)
     {
-         if (data.OpCode != 20480)
+         if (data.OpCode == 20480)
          {
         	// ここにデータ受信時のプログラムを書く
 	        data.Logger(); //Log出力用関数 
