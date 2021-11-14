@@ -1,3 +1,4 @@
+![Unity version](https://img.shields.io/badge/Unity-2020.3.6f1-blue.svg)
 # ArtNetReceiver
 Unity内でArtNetでデータを簡易に受信と録画するためのプロジェクト
 
