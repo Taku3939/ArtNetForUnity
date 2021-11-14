@@ -1,4 +1,11 @@
-﻿namespace ArtNet.Runtime
+﻿/*!
+ * Copyright (c) 2021 Takuya Isaki
+ *
+ * Released under the MIT license.
+ * see https://opensource.org/licenses/MIT
+ */
+
+namespace ArtNet.Runtime
 {
     public enum ArtNetOpCode
     {
