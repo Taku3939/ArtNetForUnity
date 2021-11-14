@@ -1,6 +1,5 @@
 {
-    "name": "ArtNet",
-    "rootNamespace": "",
+    "name": "ArtNet.Runtime",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
