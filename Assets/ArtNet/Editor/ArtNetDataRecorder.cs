@@ -5,13 +5,13 @@
  * see https://opensource.org/licenses/MIT
  */
 
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ArtNet.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace ArtNet
+namespace ArtNet.Editor
 {
     public class ArtNetDataRecorder : MonoBehaviour
     {
@@ -59,7 +59,7 @@ namespace ArtNet
 
         private void RecordingEventHandler(ArtNetData data)
         {
-            if (data.OpCode != 20480)
+            if (data.OpCode != ArtNetOpCode.OpDmx)
             {
                 return;
             }

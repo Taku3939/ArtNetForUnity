@@ -1,7 +1,14 @@
-﻿using System;
+﻿/*!
+ * Copyright (c) 2021 Takuya Isaki
+ *
+ * Released under the MIT license.
+ * see https://opensource.org/licenses/MIT
+ */
+
+using System;
 using UnityEngine;
 
-namespace ArtNet
+namespace ArtNet.Runtime
 {
     [Serializable]
     public class ArtNetChannels : MonoBehaviour

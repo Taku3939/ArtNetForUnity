@@ -6,16 +6,16 @@
  */
 
 using System;
+using UnityEditorInternal;
 using UnityEngine;
 
-namespace ArtNet
+namespace ArtNet.Runtime
 {
-    public class ArtNetData
+    public readonly struct ArtNetData
     {
         #region public filed
 
-        public const string Protocol = "Art-Net";
-        public readonly int OpCode;
+        public readonly ArtNetOpCode OpCode;
         public readonly int Sequence, Physical, Universe;
         public readonly int[] Channels;
         public readonly int ProtocolVersionHi, ProtocolVersionLo, LengthHi, LengthLo;
@@ -41,31 +41,30 @@ namespace ArtNet
         /// <param name="buf">受信したbyte列</param>
         public ArtNetData(byte[] buf)
         {
-            Channels = new int[512];
-           
-            byte[] buffer = new byte[530]; 
+            var buffer = new byte[530];
             Buffer.BlockCopy(buf, 0, buffer, 0, buf.Length);
-            char[] ids = new char[8];
-            for (int i = 0; i < 8; i++) ids[i] = (char) buffer[i];
-            var id = new string(ids); 
-            if (id.Equals(Protocol))
-            {
-                //ProtocolがArt-Netでなかった場合、終了
-                Debug.Log($"id is {id}.\nProtocolがArt-Netではありません");
-                return;
-            }
-
-            OpCode = BitConverter.ToInt16(new byte[2] {buffer[8], buffer[9]}, 0);
+            OpCode = (ArtNetOpCode)BitConverter.ToInt16(new byte[2] { buffer[8], buffer[9] }, 0);
             ProtocolVersionHi = buffer[10];
             ProtocolVersionLo = buffer[11];
             Sequence = buffer[12];
             Physical = buffer[13];
-            Universe = BitConverter.ToInt16(new byte[2] {buffer[14], buffer[15]}, 0);
+            Universe = BitConverter.ToInt16(new byte[2] { buffer[14], buffer[15] }, 0);
             LengthHi = buffer[16];
             LengthLo = buffer[17];
+            Channels = new int[512];
             for (int i = 18; i < buffer.Length; i++)
                 Channels[i - 18] = buffer[i];
         }
+
+        public static bool IsArtNet(byte[] buffer)
+            => buffer[0] == 'A' &&
+               buffer[1] == 'r' &&
+               buffer[2] == 't' &&
+               buffer[3] == '-' &&
+               buffer[4] == 'N' &&
+               buffer[5] == 'e' &&
+               buffer[6] == 't' &&
+               buffer[7] == 0x00;
 
         public void Logger()
         {
