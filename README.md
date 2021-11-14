@@ -8,6 +8,7 @@ qlc+, TouchDesigner, DasLight4での動作確認は行いました
 
 ArtNetClientを任意なオブジェクトにアタッチし、Portを設定する（デフォルトで6454）.
 
+
 以下のようなコードを書く
 
 ```C# : データ受信のサンプルコード
@@ -21,7 +22,7 @@ public class Sample : MonoBehaviour
 
     private void EventHandler(ArtNetData data)
     {
-         if (data.OpCode == 20480)
+         if (data.OpCode == ArtNetOpCode.OpDmx)
          {
         	// ここにデータ受信時のプログラムを書く
 	        data.Logger(); //Log出力用関数 
@@ -35,8 +36,6 @@ public class Sample : MonoBehaviour
 ArtNetDataRecorderにパスを設定して, Unityを再生する。
 
 録画開始は`R`、録画終了は`S`でできます。
-
-
 
 License
 -------
