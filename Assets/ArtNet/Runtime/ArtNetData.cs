@@ -6,7 +6,6 @@
  */
 
 using System;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace ArtNet.Runtime
@@ -23,7 +22,29 @@ namespace ArtNet.Runtime
         #endregion
 
         #region public method
-
+        public ArtNetData(
+            int[] channels,
+            ArtNetOpCode opCode = ArtNetOpCode.OpDmx,
+            int sequence = 0,
+            int physical = 0,
+            int universe = 0,
+            int protocolVersionHi = 0,
+            int protocolVersionLo = 14,
+            int lengthHi = 2,
+            int lengthLo = 0
+        )
+        {
+            OpCode = opCode;
+            Sequence = sequence;
+            Physical = physical;
+            Universe = universe;
+            Channels = channels;
+            ProtocolVersionHi = protocolVersionHi;
+            ProtocolVersionLo = protocolVersionLo;
+            LengthHi = lengthHi;
+            LengthLo = lengthLo;
+        }
+        
         /// <summary>
         /// コンストラクタ
         /// Art-Net Structure
@@ -79,6 +100,30 @@ namespace ArtNet.Runtime
             str += $"LengthLo : {LengthLo}\n";
             foreach (var t in Channels) str += t + "\n";
             Debug.Log(str);
+        }
+
+        public byte[] ToBytes()
+        {
+            var buffer = new byte[530];
+            char[] protocolChars = "Art-Net".ToCharArray();
+            for (var i = 0; i < protocolChars.Length; i++) buffer[i] = (byte)protocolChars[i];
+            buffer[7] = 0x00;
+            var opcodeBytes= BitConverter.GetBytes((short)OpCode);
+            buffer[8] = opcodeBytes[0];
+            buffer[9] = opcodeBytes[1];
+            buffer[10] = (byte)ProtocolVersionHi;
+            buffer[11] = (byte)ProtocolVersionLo;
+            buffer[12] = (byte)Sequence;
+            buffer[13] = (byte)Physical;
+            var universeBytes = BitConverter.GetBytes((short)Universe);
+            buffer[14] = universeBytes[0];
+            buffer[15] = universeBytes[1];
+            buffer[16] = (byte)LengthHi;
+            buffer[17] = (byte)LengthLo;
+            for (int i = 0; i < Channels.Length; i++)
+                buffer[i + 18] = (byte) Channels[i]; 
+
+            return buffer;
         }
 
         #endregion

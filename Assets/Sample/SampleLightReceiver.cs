@@ -1,14 +1,15 @@
 ﻿using ArtNet.Runtime;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SampleLightReceiver : MonoBehaviour
 {
-    [SerializeField] private ArtNetClient client;
+    [FormerlySerializedAs("client")] [SerializeField] private ArtNetReceiver receiver;
     [SerializeField] private new Light light;
 
     private void Start()
     {
-        this.client.onDataReceived += data =>
+        this.receiver.OnDataReceived += data =>
         {
             if (data.OpCode == ArtNetOpCode.OpDmx)
             {
