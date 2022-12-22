@@ -22,16 +22,18 @@ namespace ArtNet.Runtime
         #endregion
 
         #region public method
-        public ArtNetData(
+        
+        
+        public ArtNetData( 
             int[] channels,
-            ArtNetOpCode opCode = ArtNetOpCode.OpDmx,
-            int sequence = 0,
-            int physical = 0,
-            int universe = 0,
-            int protocolVersionHi = 0,
-            int protocolVersionLo = 14,
-            int lengthHi = 2,
-            int lengthLo = 0
+            ArtNetOpCode opCode,
+            int sequence, 
+            int physical, 
+            int universe,
+            int protocolVersionHi, 
+            int protocolVersionLo, 
+            int lengthHi,
+            int lengthLo 
         )
         {
             OpCode = opCode;

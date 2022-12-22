@@ -13,14 +13,14 @@ qlc+, TouchDesigner, DasLight4 での動作確認は行いました
 ArtNetClient を任意なオブジェクトにアタッチし、Port を設定する（デフォルトで 6454）.
 
 以下のようなコードを書く
-
+#### 受信の場合
 ```C# : データ受信のサンプルコード
-public class Sample : MonoBehaviour
+public class ReceiveSample : MonoBehaviour
 {
-    [SerializeField] private ArtNetClient artNetClient;
+    [SerializeField] private ArtNetReceiver artNetReceiver;
     private void Start()
     {
-        artNetClient.onDataReceived += EventHandler;
+        artNetReceiver.onDataReceived += EventHandler;
     }
 
     private void EventHandler(ArtNetData data)
@@ -32,7 +32,29 @@ public class Sample : MonoBehaviour
          }
     }
 }
+
 ```
+
+#### 送信の場合
+```C# : データ送信のサンプルコード
+public class SendSample : MonoBehaviour
+{
+    [SerializeField] private ArtNetSender sender;
+    [SerializeField] [Range(0, 255)] private int[] channels = new int[512];
+
+    private void Update()
+    {
+        // OpCode等を変えたい場合は引数を好きなように変えて下さい
+        sender.Send(channels); 
+    }
+}
+
+```
+
+## Sample
+
+LightCheck.unityがサンプルシーンです。
+Receiver, Senderともにローカルホストを設定されていますので、Unityを開始して、Faderのチャンネルを変更することで動作を確認できます
 
 ## Recorder
 

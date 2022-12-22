@@ -13,9 +13,10 @@ namespace ArtNet.Runtime
         private UdpClient _client;
         public bool IsActive => this._client != null;
         private int _port;
+
         public void Open()
         {
-            if(_client != null) return;
+            if (_client != null) return;
             _port = port;
             _client = new UdpClient();
             _client.Connect(host, port);
@@ -26,7 +27,7 @@ namespace ArtNet.Runtime
 
         public void Close()
         {
-            if(_client == null) return;
+            if (_client == null) return;
             _client.Close();
             _client = null;
         }
@@ -42,9 +43,28 @@ namespace ArtNet.Runtime
             _port = port;
         }
 
-        public void Send(ArtNetData artNet)
+        public void Send(int[] channels,
+            ArtNetOpCode opCode = ArtNetOpCode.OpDmx,
+            int sequence = 0,
+            int physical = 0,
+            int universe = 0,
+            int protocolVersionHi = 0,
+            int protocolVersionLo = 14,
+            int lengthHi = 2,
+            int lengthLo = 0)
         {
-            var sendBuf = artNet.ToBytes();
+            if (!IsActive) return;
+            var sendBuf = new ArtNetData(
+                channels: channels,
+                opCode: opCode,
+                sequence: sequence,
+                physical: physical,
+                universe: universe,
+                protocolVersionHi: protocolVersionHi,
+                protocolVersionLo: protocolVersionLo,
+                lengthHi: lengthHi,
+                lengthLo: lengthLo
+            ).ToBytes();
             _client.Send(sendBuf, sendBuf.Length);
         }
     }
