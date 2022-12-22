@@ -1,14 +1,16 @@
-![Unity version](https://img.shields.io/badge/Unity-2020.3.6f1-blue.svg)
+![Unity version](https://img.shields.io/badge/Unity-2021.3.11f1-blue.svg)
+
 # ArtNetReceiver
-Unity内でArtNetでデータを簡易に受信と録画するためのプロジェクト
+
+Unity 内で ArtNet でデータを簡易に受信と録画するためのプロジェクト
 
 ## Operation Check
-qlc+, TouchDesigner, DasLight4での動作確認は行いました
+
+qlc+, TouchDesigner, DasLight4 での動作確認は行いました
 
 ## Usage
 
-ArtNetClientを任意なオブジェクトにアタッチし、Portを設定する（デフォルトで6454）.
-
+ArtNetClient を任意なオブジェクトにアタッチし、Port を設定する（デフォルトで 6454）.
 
 以下のようなコードを書く
 
@@ -26,7 +28,7 @@ public class Sample : MonoBehaviour
          if (data.OpCode == ArtNetOpCode.OpDmx)
          {
         	// ここにデータ受信時のプログラムを書く
-	        data.Logger(); //Log出力用関数 
+	        data.Logger(); //Log出力用関数
          }
     }
 }
@@ -34,11 +36,10 @@ public class Sample : MonoBehaviour
 
 ## Recorder
 
-ArtNetDataRecorderにパスを設定して, Unityを再生する。
+ArtNetDataRecorder にパスを設定して, Unity を再生する。
 
 録画開始は`R`、録画終了は`S`でできます。
 
-License
--------
+## License
 
-[MIT](LICENSE.md)ですがコメントくれたら作者は喜びます(*'ω'*)
+[MIT](LICENSE.md)ですがコメントくれたら作者は喜びます(_'ω'_)
