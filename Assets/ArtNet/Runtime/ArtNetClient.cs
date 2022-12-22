@@ -60,7 +60,7 @@ namespace ArtNet.Runtime
 
         private void Update()
         {
-            if (_bufferStream.Count > 0)
+            while (_bufferStream.Count > 0)
             {
                 var buffer = _bufferStream.Dequeue();
                 if(ArtNetData.IsArtNet(buffer)) 
