@@ -1,8 +1,8 @@
 ![Unity version](https://img.shields.io/badge/Unity-2021.3.11f1-blue.svg)
 
-# ArtNetReceiver
+# ArtNetForUnity
 
-Unity 内で ArtNet でデータを簡易に受信と録画するためのプロジェクト
+Unity 内で ArtNet でデータを簡易に受信と送信、録画するためのプロジェクト
 
 ## Operation Check
 
