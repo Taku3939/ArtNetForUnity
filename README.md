@@ -10,7 +10,7 @@ qlc+, TouchDesigner, DasLight4 での動作確認は行いました
 
 ## Usage
 
-ArtNetClient を任意なオブジェクトにアタッチし、Port を設定する（デフォルトで 6454）.
+ArtNetReceiver, ArtNetSender を任意なオブジェクトにアタッチし、Port を設定する（デフォルトで 6454）.
 
 以下のようなコードを書く
 #### 受信の場合
